@@ -1,5 +1,5 @@
 node_modules
 coverage
 junit.xml
-.package-lock.jason
+package-lock.jason
 yarn.lock
