@@ -7,7 +7,7 @@ const {
   EmailAlreadyTakenError,
 } = require('../errors');
 const { JWT_SIGNATURE_KEY } = require('../../config/application');
-
+//Make AuthenticationController available to the app
 class AuthenticationController extends ApplicationController {
   constructor({
     userModel,
