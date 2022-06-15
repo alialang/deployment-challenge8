@@ -13,6 +13,9 @@
     "linebreak-style": 0,
     "no-unused-vars": "off",
     "import/no-dynamic-require": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "no-undef": "off",
+    "no-unreachable": "off",
+    "arrow-body-style": "off"
   }
 }

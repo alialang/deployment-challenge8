@@ -4,12 +4,12 @@ class ApplicationController {
   handleGetRoot = (req, res) => {
     res.status(200).json({
       status: 'OK',
-      message: 'BCR API is up and running!',
+      message: 'BCR API is up and running, Maria!',
     });
   };
 
-  handleNotFound = (req, res) => {
-    const err = new NotFoundError(req.method, req.url);
+  handleNotFound = async (req, res) => {
+    const err = await new NotFoundError(req.method, req.url);
 
     res.status(404).json({
       error: {
