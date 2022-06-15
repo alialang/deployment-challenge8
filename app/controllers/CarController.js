@@ -36,6 +36,9 @@ class CarController extends ApplicationController {
 
   handleCreateCar = async (req, res) => {
     try {
+      if (!req.body.name) {
+        throw new Error('No body');
+      }
       const {
         name,
         price,
@@ -69,6 +72,7 @@ class CarController extends ApplicationController {
       const car = await this.getCarFromRequest(req.params.id);
 
       if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
+      if (!rentStartedAt) throw new Error('rentStartedAt must not be empty!!');
 
       const activeRent = await this.userCarModel.findOne({
         where: {
@@ -95,10 +99,16 @@ class CarController extends ApplicationController {
         rentEndedAt,
       });
 
+      await this.carModel.update({
+        isCurrentlyRented: true,
+      }, {
+        where: {
+          id: req.params.id,
+        },
+      });
+
       res.status(201).json(userCar);
-    } catch (err) {
-      next(err);
-    }
+    } catch (err) { next(err); }
   };
 
   handleUpdateCar = async (req, res) => {
@@ -132,8 +142,15 @@ class CarController extends ApplicationController {
   };
 
   handleDeleteCar = async (req, res) => {
-    const car = await this.carModel.destroy(req.params.id);
-    res.status(204).end();
+    const car = await this.carModel.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.status(200).json(
+      { message: 'Data have been deleted successfully' },
+    );
   };
 
   getCarFromRequest(req) {
